@@ -43,16 +43,6 @@ function main() {
 	echo "Rebuild mimetype images"
 
 	ooc maintenance:mimetype:update-js
-
-	local enable_apps=(
-		"extract"
-		"viewer"
-	)
-
-	for app in ${enable_apps[@]}; do
-		echo "Enable app '${app}' ..."
-		ooc app:enable "${app}"
-	done
 }
 
 main ${@}
