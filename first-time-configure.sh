@@ -8,9 +8,6 @@ function ooc() {
 }
 
 function main() {
-	# No such app enabled: password_policy
-	# ooc app:disable password_policy
-
 	# test required apps are set
 	REQS=( php )
 
