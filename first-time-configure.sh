@@ -53,47 +53,6 @@ function main() {
 		echo "Enable app '${app}' ..."
 		ooc app:enable "${app}"
 	done
-
-	local disable_apps=(
-		"activity"
-		"circles"
-		"comments"
-		"contactsinteraction"
-		"dashboard"
-		"files_versions"
-		"firstrunwizard"
-		"logreader"
-		"nextcloud_announcements"
-		"privacy"
-		"recommendations"
-		"related_resources"
-		"serverinfo"
-		"sharebymail"
-		"support"
-		"survey_client"
-		"systemtags"
-		"updatenotification"
-		"user_status"
-		"weather_status"
-		"workflowengine"
-	)
-
-	echo "Remove apps from 'shipped' list ..."
-
-	for app in "${disable_apps[@]}"; do
-		echo "Unship app '${app}' ..."
-		cat ${SHIPPED_JSON} \
-			| jq --arg toUnforce "${app}" 'del(.defaultEnabled[] | select(. == $toUnforce))' \
-			| jq --arg toUnforce "${app}" 'del(.alwaysEnabled[] | select(. == $toUnforce))' > ${SHIPPED_JSON}.tmp \
-				&& mv ${SHIPPED_JSON}.tmp ${SHIPPED_JSON}
-	done
-
-	echo "Disable apps"
-
-	for app in ${disable_apps[@]}; do
-		echo "Disable app '${app}' ..."
-		ooc app:disable "${app}"
-	done
 }
 
 main ${@}
