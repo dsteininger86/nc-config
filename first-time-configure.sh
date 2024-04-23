@@ -1,28 +1,29 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 SHIPPED_JSON="core/shipped.json"
 
-function ooc() {
+ooc() {
 	php occ \
 		"${@}"
 }
 
-function main() {
-	# test required apps are set
-	REQS=( php )
+fail() {
+	echo "${*}"
+	exit 1
+}
 
-	for REQ in "${REQS[@]}"
-	do
-		which "${REQ}" >/dev/null
-		if [ ! $? -eq 0 ]; then
-			echo "ERROR: requirement '${REQ}' is missing"
-			exit 1
-		fi
-	done
+main() {
+	if ! which php 2>&1 >/dev/null; then
+		fail "Error: php is required"
+	fi
+
+	if ! which jq 2>&1 >/dev/null; then
+		fail "Error: jq is required"
+	fi
 
 	echo "Configure NextCloud basics"
 
-	if [[ $(ooc status --output json | jq '.installed') != "true" ]]; then
+	if [ $(ooc status --output json | jq '.installed') != "true" ]; then
 		echo "NextCloud is not installed, abort"
 		exit 1
 	fi
