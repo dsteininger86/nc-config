@@ -1,7 +1,5 @@
 #!/bin/sh
 
-SHIPPED_JSON="core/shipped.json"
-
 ooc() {
 	php occ \
 		"${@}"
