@@ -1,5 +1,7 @@
 #!/bin/sh
 
+BDIR="$( dirname "${0}" )"
+
 ooc() {
 	php occ \
 		"${@}"
@@ -36,6 +38,33 @@ config_ui() {
 	ooc config:app:set theming backgroundMime --value backgroundColor
 }
 
+add_config_partials() {
+	echo "Add config partials ..."
+
+	cat >"${BDIR}"/../config/app-paths.config.php <<-'EOF'
+		<?php
+		$CONFIG = [
+		  'apps_paths' => [
+		    [
+		      'path' => '/var/www/html/apps',
+		      'url' => '/apps',
+		      'writable' => true,
+		    ],
+		    [
+		      'path' => '/var/www/html/apps-custom',
+		      'url' => '/apps-custom',
+		      'writable' => true,
+		    ],
+		    [
+		      'path' => '/var/www/html/apps-external',
+		      'url' => '/apps-external',
+		      'writable' => true,
+		    ],
+		  ],
+		];
+	EOF
+}
+
 main() {
 	checks
 
@@ -44,6 +73,7 @@ main() {
 		exit 1
 	fi
 
+	add_config_partials
 	config_server
 	config_ui
 }
