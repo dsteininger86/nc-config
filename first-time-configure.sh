@@ -11,11 +11,11 @@ fail() {
 }
 
 checks() {
-	if ! which php 2>&1 >/dev/null; then
+	if ! which php >/dev/null 2>&1; then
 		fail "Error: php is required"
 	fi
 
-	if ! which jq 2>&1 >/dev/null; then
+	if ! which jq >/dev/null 2>&1; then
 		fail "Error: jq is required"
 	fi
 }
@@ -39,7 +39,7 @@ config_ui() {
 main() {
 	checks
 
-	if [ $(ooc status --output json | jq '.installed') != "true" ]; then
+	if [ "$( ooc status --output json | jq '.installed' )" != "true" ]; then
 		echo "NextCloud is not installed, abort"
 		exit 1
 	fi
@@ -48,4 +48,4 @@ main() {
 	config_ui
 }
 
-main ${@}
+main "${@}"
