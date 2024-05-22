@@ -68,7 +68,16 @@ add_config_partials() {
 main() {
 	checks
 
-	if [ "$( ooc status --output json | jq '.installed' )" != "true" ]; then
+	# Redirecting jq's stderr to drop parser error message that we can test for it
+	local status="$( ooc status --output json 2>/dev/null | jq '.installed' 2>/dev/null )"
+
+	if [ "${status}" = "" ]; then
+		echo "Error testing Nextcloud status. This is the output of occ status:"
+		ooc status
+		exit 1
+	fi
+
+	if [ "${status}" != "true" ]; then
 		echo "NextCloud is not installed, abort"
 		exit 1
 	fi
