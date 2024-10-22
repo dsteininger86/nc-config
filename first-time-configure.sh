@@ -27,6 +27,8 @@ config_server() {
 
 	ooc config:system:set lookup_server --value=""
 	ooc user:setting admin settings email admin@example.net
+	# array of providers to be used for unified search
+	ooc config:app:set --value '["files"]' --type array core unified_search.providers_allowed
 }
 
 config_ui() {
