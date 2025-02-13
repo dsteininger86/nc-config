@@ -17,6 +17,9 @@ configure_user_oidc() {
 		--discoveryuri="${ENC_OIDC_DISCOVERY_URI}" \
 		--unique-uid=0 \
 		--scope="${ENC_OIDC_SCOPES}"
+
+	# Don't show a login page, send users directly to the ID provider
+	./occ config:app:set --value=0 user_oidc allow_multiple_user_backends
 }
 
 main() {
