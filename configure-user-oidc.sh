@@ -15,6 +15,7 @@ configure_user_oidc() {
 		--clientid="${ENC_OIDC_CLIENT_ID}" \
 		--clientsecret="${ENC_OIDC_SECRET}" \
 		--discoveryuri="${ENC_OIDC_DISCOVERY_URI}" \
+		--extra-claims="${ENC_OIDC_EXTRA_CLAIMS}" \
 		--endsessionendpointuri="${HDN_OIDC_ENDSESSIONENDPOINT_URI}" \
 		--mapping-uid="${ENC_OIDC_MAPPING_UID}" \
 		--unique-uid=0 \
@@ -58,6 +59,10 @@ main() {
 
 	if [ -z "${ENC_OIDC_DISCOVERY_URI}" ]; then
 		fail "ENC_OIDC_DISCOVERY_URI not set"
+	fi
+
+	if [ -z "${ENC_OIDC_EXTRA_CLAIMS}" ]; then
+		fail "ENC_OIDC_EXTRA_CLAIMS not set"
 	fi
 
 	if [ -z "${HDN_OIDC_ENDSESSIONENDPOINT_URI}" ]; then
